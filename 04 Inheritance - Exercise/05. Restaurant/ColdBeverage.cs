@@ -1,10 +1,8 @@
-﻿
-
-namespace Restaurant
+﻿namespace Restaurant
 {
     public class ColdBeverage : Beverage
     {
-        public ColdBeverage(string name, decimal price, double milliliters) : base(name, price, milliliters)
+        public ColdBeverage(string name, decimal price, double millilitres) : base(name, price, millilitres)
         {
         }
     }

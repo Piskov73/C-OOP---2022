@@ -1,14 +1,12 @@
-﻿
-
-namespace Restaurant
+﻿namespace Restaurant
 {
     public class Beverage : Product
     {
-        public Beverage(string name, decimal price, double milliliters) : base(name, price)
+        public Beverage(string name, decimal price,double millilitres) : base(name, price)
         {
-            Milliliters = milliliters;
+            Milliliters = millilitres;
         }
-       
-        public virtual double Milliliters { get; set; }
+        
+        public double Milliliters { get; set; }
     }
 }

@@ -1,10 +1,8 @@
-﻿
-
-namespace Restaurant
+﻿namespace Restaurant
 {
     public class Tea : HotBeverage
     {
-        public Tea(string name, decimal price, double milliliters) : base(name, price, milliliters)
+        public Tea(string name, decimal price, double millilitres) : base(name, price, millilitres)
         {
         }
     }

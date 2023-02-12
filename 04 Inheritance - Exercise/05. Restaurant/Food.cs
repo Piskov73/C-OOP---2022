@@ -1,6 +1,4 @@
-﻿
-
-namespace Restaurant
+﻿namespace Restaurant
 {
     public class Food : Product
     {
@@ -8,7 +6,6 @@ namespace Restaurant
         {
             Grams = grams;
         }
-       
-        public virtual double Grams { get; set; }
+        public double Grams { get; set; }
     }
 }
