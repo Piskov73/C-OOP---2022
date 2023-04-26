@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Farm
+﻿namespace Farm
 {
-    public class Cat :Animal
+    using System;
+
+    public class Cat : Animal
     {
         public void Meow()
         {
