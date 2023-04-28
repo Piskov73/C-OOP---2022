@@ -1,13 +1,17 @@
-﻿
-
-namespace Zoo
+﻿namespace Zoo
 {
     public class Animal
     {
+		private string name;
         public Animal(string name)
         {
-            Name= name;
+            this.Name = name;
         }
-        public  string Name { get; set; }
-    }
+        public string Name
+		{
+			get { return name; }
+			set { name = value; }
+		}
+
+	}
 }

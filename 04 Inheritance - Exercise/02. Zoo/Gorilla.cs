@@ -1,6 +1,4 @@
-﻿
-
-namespace Zoo
+﻿namespace Zoo
 {
     public class Gorilla : Mammal
     {

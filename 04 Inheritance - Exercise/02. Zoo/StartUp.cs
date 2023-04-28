@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Zoo
+﻿namespace Zoo
 {
     public class StartUp
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            var gorilla = new Gorilla("Ivan");
+
         }
     }
 }
