@@ -4,20 +4,22 @@ namespace Person
 {
     public class StartUp
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            string name=Console.ReadLine();
-            int age =int.Parse(Console.ReadLine());
-            if (age < 16)
+            string name = Console.ReadLine();
+            int age = int.Parse(Console.ReadLine());
+            if( age > 15 ) 
             {
-                var child=new Child(name,age);
-                Console.WriteLine(child.ToString());
+                Person person = new Person(name, age);
+                Console.WriteLine(person);
             }
             else
             {
-                var person =new Person(name,age);
-                Console.WriteLine(person.ToString());
+                Child child = new Child(name, age);
+                Console.WriteLine(child);
             }
+
+          
         }
     }
 }

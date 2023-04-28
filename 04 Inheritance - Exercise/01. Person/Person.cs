@@ -1,33 +1,30 @@
-﻿
-namespace Person
+﻿namespace Person
 {
     public class Person
     {
-        //(e.g. Name, Age) 
-        private  int age;
-        public Person(string name, int age)
+        private string name;
+        private int age;
+        public Person(string name,int age)
         {
-            Name = name;
-            Age = age;
+            this.Name = name;
+            this.Age = age;
         }
-        public  string Name { get; set; }
-
+        public string Name
+        {
+            get { return name; }
+            private set { name = value; }
+        }
         public virtual int Age
         {
             get { return age; }
-            set
+             set
             {
-                if (value > 0)
-                {
-                    age = value;
-
-                }
+                if(value>0) age = value;
             }
         }
-        public  override string ToString()
+        public override string ToString()
         {
-            return $"Name: {this.Name}, Age: {age}";
+            return $"Name: {Name}, Age: {Age}";
         }
-
     }
 }

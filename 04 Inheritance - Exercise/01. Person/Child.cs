@@ -1,21 +1,18 @@
-﻿
-namespace Person
+﻿namespace Person
 {
     public class Child : Person
     {
+        
         public Child(string name, int age) : base(name, age)
         {
-
+           
         }
         public override int Age
         {
             get { return base.Age; }
-            set
+             set
             {
-                if (value > 0 && value < 16)
-                {
-                    base.Age = value;
-                }
+                if (value <= 15&&value>0) base.Age = value;
             }
         }
     }
