@@ -1,15 +1,11 @@
-﻿
-
-namespace NeedForSpeed
+﻿namespace NeedForSpeed
 {
     public class Car : Vehicle
     {
-        
-        private const double DEFAUT_FUEL_CAR_COMSUMPTION = 3;
+        private const double DEFAULT_FUEL_CONSUMPTION_CAR = 3;
         public Car(int horsePower, double fuel) : base(horsePower, fuel)
         {
-            
         }
-        public override double FuelConsumption => DEFAUT_FUEL_CAR_COMSUMPTION;
+        public override double FuelConsumption => DEFAULT_FUEL_CONSUMPTION_CAR;
     }
 }

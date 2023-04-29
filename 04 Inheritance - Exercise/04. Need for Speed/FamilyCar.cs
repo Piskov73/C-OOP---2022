@@ -1,6 +1,4 @@
-﻿
-
-namespace NeedForSpeed
+﻿namespace NeedForSpeed
 {
     public class FamilyCar : Car
     {
