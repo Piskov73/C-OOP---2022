@@ -1,22 +1,32 @@
-﻿
-
-namespace PlayersAndMonsters
+﻿namespace PlayersAndMonsters
 {
     public class Hero
     {
-        public Hero(string username, int level)
+        private string username;
+        private int level;
+
+        public Hero(string username,int leval)
         {
             this.Username = username;
-            this.Level = level;
-
+            this.Level = leval;
+        }
+        public string Username
+        {
+            get { return username; }
+             set { username = value; }
         }
 
-        public string Username { get; set; }
-        public int Level { get; set; }
+        public int Level
+        {
+            get { return level ; }
+            set { level  = value; }
+        }
+
         public override string ToString()
         {
-            return $"Type: {this.GetType().Name} Username: {this.Username} Level: {this.Level}";
+            return $"Type: {this.GetType().Name} Username: {this.Username} Level: {this.Level}"; ;
         }
+
 
     }
 }
