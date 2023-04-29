@@ -1,6 +1,4 @@
-﻿
-
-namespace Restaurant
+﻿namespace Restaurant
 {
     public class Soup : Starter
     {

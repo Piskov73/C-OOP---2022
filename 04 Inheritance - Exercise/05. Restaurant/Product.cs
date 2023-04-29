@@ -2,13 +2,12 @@
 {
     public class Product
     {
-       public Product(string name,decimal price)
+        public Product(string name,decimal price)
         {
-            Name = name;
-            Price = price;
+            this.Name = name;
+            this.Price = price;
         }
         public string Name { get; set; }
-        public decimal Price { get; set; }
-
+        public  decimal Price { get; set; }
     }
 }

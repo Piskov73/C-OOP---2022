@@ -4,7 +4,7 @@
     {
         public Food(string name, decimal price, double grams) : base(name, price)
         {
-            Grams = grams;
+            this.Grams = grams;
         }
         public double Grams { get; set; }
     }
