@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace PersonsInfo
+﻿namespace PersonsInfo
 {
+    using System.Collections.Generic;
+    using System;
+
     public class StartUp
     {
         public static void Main(string[] args)
