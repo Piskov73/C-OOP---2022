@@ -1,51 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PersonsInfo
+﻿namespace PersonsInfo
 {
     public class Person
     {
-        // •FirstName: string
-        //•	LastName: string
-        //•	Age: int
-        //•	ToString() : string - override
-        private string firstName;
-
-        private string lastName;
-
-        private int age;
-
-        public Person (string firstName,string lastName,int age)
+        public Person(string firstName,string lastName,int age)
         {
-            FirstName= firstName;
-            LastName= lastName;
-            Age= age;
+            FirstName = firstName;
+            LastName = lastName;
+            Age = age;
         }
+        public string FirstName { get;private set; }
+        public string LastName { get;private set; }
+        public int Age { get;private set; }
 
-        public string FirstName
-        {
-            get { return firstName; }
-           private set { firstName = value; }
-        }
-
-
-        public string LastName
-        {
-            get { return lastName; }
-           private set { lastName = value; }
-        }
-
-        public int Age
-        {
-            get { return age; }
-           private set { age = value; }
-        }
         public override string ToString()
         {
             return $"{FirstName} {LastName} is {Age} years old.";
         }
-
-
     }
 }
