@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System;
 
 namespace PersonsInfo
 {
@@ -22,17 +21,16 @@ namespace PersonsInfo
 
                     persons.Add(person);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Console.WriteLine(e.Message);
-                   
+                    Console.WriteLine(ex.Message);
+
                 }
-                
+
             }
             var parcentage = decimal.Parse(Console.ReadLine());
             persons.ForEach(p => p.IncreaseSalary(parcentage));
             persons.ForEach(p => Console.WriteLine(p.ToString()));
-
         }
     }
 }
