@@ -1,48 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-
-namespace PersonsInfo
+﻿namespace PersonsInfo
 {
+    using System.Collections.Generic;
+
     public class Team
     {
-        //•	name: string
-        //•	firstTeam: List<Person>
-        //•	reserveTeam: List<Person>
+       
         private string name;
         private List<Person> firstTeam;
         private List<Person> reserveTeam;
         public Team(string name)
         {
-            this.name = name;
+            this.Name = name;
             this.firstTeam = new List<Person>();
             this.reserveTeam = new List<Person>();
-
+        }
+        public string Name
+        {
+            get { return name; }
+            private set { name = value; }
         }
 
-        public IReadOnlyCollection<Person> FirstTeam { get { return firstTeam.AsReadOnly(); } }
-        public IReadOnlyCollection<Person> ReserveTeam { get { return reserveTeam.AsReadOnly(); } }
+        public ICollection<Person> FirstTeam
+        {
+            get { return firstTeam.AsReadOnly(); }
+            
+        }
+        public ICollection<Person> ReserveTeam
+        {
+            get { return reserveTeam.AsReadOnly(); }
+        }
 
-        public void AddPlayer(Person person)
+        public void 	AddPlayer(Person person)
         {
             if (person.Age < 40)
             {
-                firstTeam.Add(person);
+                this.firstTeam.Add(person);
             }
             else
             {
-                reserveTeam.Add(person);
+                this.reserveTeam.Add(person);
             }
-        }
-        public override string ToString()
-        {
-            // First team has 4 players.
-            //Reserve team has 1 players.
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"First team has {this.firstTeam.Count} players.");
-            sb.Append($"Reserve team has {this.reserveTeam.Count} players.");
-            return sb.ToString();
+
         }
 
     }

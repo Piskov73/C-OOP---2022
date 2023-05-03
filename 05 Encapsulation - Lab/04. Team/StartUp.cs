@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
 using System.Linq;
 
 namespace PersonsInfo
@@ -22,12 +22,12 @@ namespace PersonsInfo
 
                     persons.Add(person);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                 
-                   
+                    Console.WriteLine(ex.Message);
+
                 }
-                
+
             }
             Team team = new Team("SoftUni");
 
@@ -35,8 +35,9 @@ namespace PersonsInfo
             {
                 team.AddPlayer(person);
             }
-            Console.WriteLine(team);
-        
+            Console.WriteLine($"First team has {team.FirstTeam.Count} players.");
+            Console.WriteLine($"Reserve team has {team.ReserveTeam.Count} players.");
+
         }
     }
 }
