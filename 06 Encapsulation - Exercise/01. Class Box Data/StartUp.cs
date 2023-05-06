@@ -1,24 +1,25 @@
-﻿namespace _01ClassBoxData
+﻿namespace ClassBoxData
 {
     using System;
-    using System.Threading.Channels;
 
     public class StartUp
     {
         public static void Main(string[] args)
         {
+         
+          
             try
             {
-                double length = double.Parse(Console.ReadLine());
-                double width = double.Parse(Console.ReadLine());
+                double lenght = double.Parse(Console.ReadLine());
+                double widtht = double.Parse(Console.ReadLine());
                 double height = double.Parse(Console.ReadLine());
-                Box box=new Box(length, width, height);
+                var box = new Box(lenght, widtht, height);
                 Console.WriteLine(box);
             }
-            catch (Exception e)
+            catch (ArgumentException ae)
             {
 
-                Console.WriteLine(e.Message);
+                Console.WriteLine(ae.Message);
             }
 
         }
