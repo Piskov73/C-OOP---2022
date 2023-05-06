@@ -6,6 +6,7 @@
     {
         static void Main(string[] args)
         {
+           
             try
             {
                 string name = Console.ReadLine();
@@ -18,13 +19,11 @@
                     chicken.Age,
                     chicken.ProductPerDay);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.Message);
-               
+
+                Console.WriteLine(ex.Message);
             }
-           
-            
         }
     }
 }
