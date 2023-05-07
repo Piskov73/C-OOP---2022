@@ -1,4 +1,4 @@
-﻿namespace _3ShoppingSpree
+﻿namespace ShoppingSpree
 {
     using System;
     using System.Collections.Generic;
@@ -10,61 +10,71 @@
         {
             List<Person> persons = new List<Person>();
             List<Product> products = new List<Product>();
+            List<string> inputPersons = Console.ReadLine()
+                    .Split(";", StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> inputProducts = Console.ReadLine()
+                .Split(";", StringSplitOptions.RemoveEmptyEntries).ToList();
             try
             {
-                List<string> inputPersons = Console.ReadLine().Split(';',StringSplitOptions.RemoveEmptyEntries ).ToList();
-                List<string> inputProducts = Console.ReadLine().Split(';',StringSplitOptions.RemoveEmptyEntries).ToList();
-                AddPerson(inputPersons, persons);
-                AddProduct(inputProducts, products);
-                string input=Console.ReadLine();
-                while (input!="END")
+                foreach (var item in inputPersons)
                 {
-                    string[] token = input.Split(' ',StringSplitOptions.RemoveEmptyEntries).ToArray();
-                    string namePerson = token[0];
-                    string nameProduct = token[1];
-                    Person person=persons.FirstOrDefault(p => p.Name == namePerson);
-                    Product product = products.FirstOrDefault(p => p.Name==nameProduct);
-                    if(product!=null&&person!=null)
-                    {
-                        Console.WriteLine(person.AddProduct(product));
-
-                    }
-                    input = Console.ReadLine();
+                    string[] token = item.Split("=", StringSplitOptions.RemoveEmptyEntries).ToArray();
+                    string name = token[0];
+                    decimal money = decimal.Parse(token[1]);
+                    var person = new Person(name, money);
+                    persons.Add(person);
                 }
-                foreach (var pers in persons)
+                foreach (var item in inputProducts)
                 {
-                    Console.WriteLine(pers);
+                    string[] token = item.Split("=", StringSplitOptions.RemoveEmptyEntries).ToArray();
+                    string name = token[0];
+                    decimal cost = decimal.Parse(token[1]);
+                    var product = new Product(name, cost);
+                    products.Add(product);
+                }
+                string comand = Console.ReadLine();
+                while (comand!="END")
+                {
+                    string[] tokens = comand.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                    string namePerson = tokens[0];
+                    string nameProduct= tokens[1];
+                    var person=persons.FirstOrDefault(p=>p.Name==namePerson);
+                    if (person!=null)
+                    {
+                        var product=products.FirstOrDefault(p=>p.Name==nameProduct);
+                        if (product!=null)
+                        {
+                            
+                            Console.WriteLine(person.BuyProduct(product));
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException(MesaggesException.INVALID_PRODUCT);
+                        }
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException(MesaggesException.INVALID_PERSON);
+                    }
+                    comand = Console.ReadLine();
                 }
 
             }
-            catch (Exception e)
+            catch (ArgumentException ae)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(ae.Message);
                 return;
             }
-        }
-        static void AddPerson(List<string> inputPersons, List<Person> persons)
-        {
-            foreach (var item in inputPersons)
+            catch(InvalidOperationException ioe)
             {
-                string[] person = item.Split('=', StringSplitOptions.RemoveEmptyEntries).ToArray();
-                string name = person[0];
-                decimal money = decimal.Parse(person[1]);
-                Person newPerson = new Person(name, money);
-                persons.Add(newPerson);
+                Console.WriteLine(ioe.Message);
+                return;
+            }
+            foreach (var item in persons) 
+            {
+                Console.WriteLine(item.ToString());
+            }
 
-            }
-        }
-        private static void AddProduct(List<string> inputProducts, List<Product> products)
-        {
-            foreach (var item in inputProducts)
-            {
-                string[] product = item.Split("=", StringSplitOptions.RemoveEmptyEntries).ToArray();
-                string name= product[0];
-                decimal cost= decimal.Parse(product[1]);
-                Product newProduct= new Product(name, cost);
-                products.Add(newProduct);
-            }
         }
     }
 }

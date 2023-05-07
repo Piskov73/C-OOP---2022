@@ -1,45 +1,34 @@
-﻿using System;
-
-namespace _3ShoppingSpree
+﻿namespace ShoppingSpree
 {
+    using System;
     public class Product
     {
-       
         private string name;
         private decimal cost;
-        public Product(string name, decimal cost)
+        public Product(string name,decimal cost)
         {
             this.Name = name;
             this.Cost = cost;
-
         }
-
-
-
         public string Name
         {
-            get { return name; }
+            get => name;
             private set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException(string.Format(MessageException.CANNOT_BE_EMPTY));
-                }
+                    throw new ArgumentException(MesaggesException.INVALID_NAME);
                 name = value;
             }
         }
         public decimal Cost
         {
-            get { return cost; }
+            get => cost;
             private set
             {
                 if (value < 0)
-                {
-                    throw new ArgumentException(string.Format(MessageException.CANNOT_BE_NEGATIVE));
-                }
+                    throw new ArgumentException(MesaggesException.INVALID_COST);
                 cost = value;
             }
         }
-
     }
 }

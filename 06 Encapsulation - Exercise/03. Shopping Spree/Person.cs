@@ -1,71 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace _3ShoppingSpree
+﻿namespace ShoppingSpree
 {
+    using System;
+    using System.Collections.Generic;
+
     public class Person
     {
-
         private string name;
         private decimal money;
-        private List<Product> bagOfProducts;
-        public Person(string name, decimal money)
+        private List<Product> products;
+        private Person()
+        {
+            this.products = new List<Product>();
+        }
+        public Person(string name, decimal money) : this()
         {
             this.Name = name;
             this.Money = money;
-            bagOfProducts = new List<Product>();
         }
-
         public string Name
         {
-            get { return name; }
+            get => this.name;
             private set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException(string.Format(MessageException.CANNOT_BE_EMPTY));
-                }
-                name = value;
+                    throw new ArgumentException(MesaggesException.INVALID_NAME);
+                this.name = value;
             }
         }
         public decimal Money
         {
-            get { return money; }
+            get => this.money;
             private set
             {
                 if (value < 0)
-                {
-                    throw new ArgumentException(string.Format(MessageException.CANNOT_BE_NEGATIVE));
-                }
-                money = value;
+                    throw new ArgumentException(MesaggesException.INVALID_COST);
+                this.money = value;
             }
         }
-        public IReadOnlyCollection<Product> BagOfProducts { get { return bagOfProducts.AsReadOnly(); } }
-
-
-        public string AddProduct(Product product)
+        public string BuyProduct(Product product)
         {
-            if (product.Cost <= this.Money)
+            if (product.Cost > this.money)
             {
-                this.Money -= product.Cost;
-                this.bagOfProducts.Add(product);
-                return $"{this.Name} bought {product.Name}";
+                return $"{this.Name} can't afford {product.Name}";
             }
-            return $"{this.Name} can't afford {product.Name}";
+            products.Add(product);
+            this.money -= product.Cost;
+            return $"{this.Name} bought {product.Name}";
         }
         public override string ToString()
         {
-            if (this.bagOfProducts.Count == 0)
+            if (this.products.Count == 0) return $"{this.Name} - Nothing bought";
+            var listProductName = new List<string>();
+            foreach (var item in this.products)
             {
-                return $"{this.Name} - Nothing bought ";
+                listProductName.Add(item.Name);
             }
-            List<string> str = new List<string>();
-            foreach (var item in bagOfProducts)
-            {
-                str.Add(item.Name);
-            }
-            return $"{this.Name} - {string.Join(", ", str)}";
-        }
 
+            return $"{this.Name} - {string.Join(", ", listProductName)}";
+        }
     }
 }
