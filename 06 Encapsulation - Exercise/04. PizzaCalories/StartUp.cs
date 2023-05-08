@@ -1,43 +1,58 @@
-﻿using System;
+﻿namespace PizzaCalories
+{
+    using System;
 
-namespace _04PizzaCalories
-{   public class StartUp
+    public class StartUp
     {
         public static void Main(string[] args)
         {
+            Pizza pizza=null;
             try
-			{
-				string comand=Console.ReadLine();
-				string[] namePizza=comand.Split(' ');
-                Pizza pizza=new Pizza(namePizza[1]);
+            {
+                string comand = Console.ReadLine();
+                while (comand != "END")
+                {
+                    string[] ingredientsPizza = comand.Split();
+                    if (ingredientsPizza[0] == "Pizza")
+                    {
+                        string name = ingredientsPizza[1];
+                        pizza=new Pizza(name);
+                    }
+                    else if (ingredientsPizza[0] == "Dough")
+                    {
+                        string flourType = ingredientsPizza[1];
+                        string bakingTechnique = ingredientsPizza[2];
+                        double grams = double.Parse(ingredientsPizza[3]);
+                        var dough = new Dough(flourType, bakingTechnique, grams);
+                        
+                        pizza.AddDough(dough);
 
-                comand = Console.ReadLine();
-
-                while (comand!="END")
-				{
-					string[] tokens = comand.Split(' ');
-					switch (tokens[0])
-					{
-						case "Dough":
-							Dough dough = new Dough(tokens[1], tokens[2], int.Parse(tokens[3]));
-							pizza.AddDough(dough);
-							break;
-						case "Topping":
-							Topping topping = new Topping(tokens[1], int.Parse(tokens[2]));
-							pizza.AddTopping(topping);
-							break;
+                    }
+                    else if (ingredientsPizza[0] == "Topping")
+                    {
+                        string name = ingredientsPizza[1];
+                        double grams = double.Parse(ingredientsPizza[2]);
+                        var toppind = new Topping(name, grams);
+                        
+                        pizza.AddTopping(toppind);
+                    }
+                    else
+                    {
+                        throw new ArgumentException(MessageException.INVALID_INPUT);
                     }
 
-					comand=Console.ReadLine();
-				}
-				Console.WriteLine(pizza);
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e.Message);
-				return;
-			}
-            
+                    comand = Console.ReadLine();
+                }
+                Console.WriteLine(pizza);
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+               
+            }
+
 
         }
     }

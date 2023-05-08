@@ -1,66 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace _04PizzaCalories
+﻿namespace PizzaCalories
 {
+    using System;
+    using System.Collections.Generic;
+
     public class Topping
     {
-        private const int MIN_GRAMS = 0;
-        private const int MAX_GRAMS = 50;
-        private Dictionary<string, double> toppings = new Dictionary<string, double>()
+        private const double MIN_GRAMS = 1;
+        private const double MAX_GRAMS = 50;
+
+        private Dictionary<string, double> modifiers;
+        private string name;
+        private double grams;
+
+        private Topping()
         {
-            ["Meat"] = 1.2,
-            ["Veggies"] = 0.8,
-            ["Cheese"] = 1.1,
-            ["Sauce"] = 0.9
-        };
-        private string topping;
-        private int gram;
-        public Topping(string topping, int gram)
-        {
-            if (ChekTopping(toppings, topping))
+            this.modifiers = new Dictionary<string, double>()
             {
-                throw new ArgumentException(string.Format(ExceptionMessages.INVALID_TYPE_TOPPING,topping));
-            }
-            var filter=toppings.First(x=>x.Key.ToLower()==topping.ToLower());
-            this.Toppimg = filter.Key;
-            this.Gram = gram;
+                ["meat"] = 1.2,
+                ["veggies"] = 0.8,
+                ["cheese"] = 1.1,
+                ["sauce"] = 0.9
+            };
         }
-        public string Toppimg
+        public Topping(string name, double grams) : this()
         {
-            get { return topping; }
-            private set
-            {
-              
-                
-                topping = value;
-            }
-        }
-        public int Gram
-        {
-            get { return gram; }
-            private set
-            {
-                if(value< MIN_GRAMS || value > MAX_GRAMS)
-                {
-                    throw new ArgumentException(string.Format(ExceptionMessages.INVALID_RANGE_TOPPING,this.Toppimg));
-                }
-                gram = value;
-            }
-        }
-        public double GetCaloriesTopping => 2 * this.Gram * toppings[this.Toppimg];
-        private bool ChekTopping(Dictionary<string, double> toppings, string value)
-        {
-            foreach (var item in toppings)
-            {
-                if (item.Key.ToLower() == value.ToLower())
-                {
-                    return false;
-                }
-            }
-            return true;
+            this.Name = name;
+            this.Grams = grams;
         }
 
+        public string Name
+        {
+            get => this.name;
+            private set
+            {
+                if (ChekTopping(value)) 
+                {
+                    
+                    throw new ArgumentException(string.Format(MessageException.INVALID_TOPPING, value));
+                } 
+                this.name = value;
+            }
+        }
+        public double Grams
+        {
+            get => grams;
+            private set
+            {
+                if (value < MIN_GRAMS || value > MAX_GRAMS)
+                {
+                    string str = char.ToUpper(this.Name[0]) + this.Name.Substring(1);
+                    throw new ArgumentException(string.Format(MessageException.INVALID_GRAMS_TOPPING, this.Name, MIN_GRAMS, MAX_GRAMS));
+                }
+                    
+                grams = value;
+            }
+        }
+        public double Calories => 2 * this.Grams * this.modifiers[Name.ToLower()];
+        private bool ChekTopping(string nameTopping)
+        {
+            if (modifiers.ContainsKey(nameTopping.ToLower())) return false;
+            return true;
+        }
     }
 }
