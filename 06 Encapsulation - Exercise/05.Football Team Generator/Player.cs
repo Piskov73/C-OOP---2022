@@ -1,35 +1,25 @@
-﻿using System;
-
-namespace _05FootballTeamGenerator
+﻿namespace FootballTeamGenerator
 {
+    using System;
+
     public class Player
     {
         private string name;
-        private Stat stats;
-
-        public Player(string name, Stat stat)
+        public Player(string name, Stats stats)
         {
             this.Name = name;
-            this.Stats = stat;
-
+            this.Stats = stats;
         }
         public string Name
         {
-            get { return name; }
+            get => this.name;
             private set
             {
                 if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException(string.Format(MessageException.NAME_NULL_EMPTY));
-                }
+                    throw new ArgumentException(MessageExceptions.NAME_NOT_BI_EMPTY);
                 name = value;
             }
         }
-        public Stat Stats
-        {
-            get { return stats; ; }
-            private set { stats = value; }
-        }
-        internal double SkillLevel => 1.0 * (Stats.Endurance+Stats.Sprint+Stats.Dribble+Stats.Passing+Stats.Shooting)/5;
+        public Stats Stats { get; }
     }
 }

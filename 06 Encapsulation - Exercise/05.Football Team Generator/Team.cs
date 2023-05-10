@@ -1,59 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-namespace _05FootballTeamGenerator
+﻿namespace FootballTeamGenerator
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Team
     {
         private string name;
-        private List<Player> playerList;
-        public Team(string name)
+        private HashSet<Player> players;
+
+        private Team()
+        {
+            this.players = new HashSet<Player>();
+        }
+        public Team(string name) : this()
         {
             this.Name = name;
-            playerList = new List<Player>();
         }
+
         public string Name
         {
-            get { return name; }
+            get => this.name;
             private set
             {
                 if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException(MessageException.NAME_NULL_EMPTY);
-                }
+                    throw new ArgumentException(MessageExceptions.NAME_NOT_BI_EMPTY);
                 name = value;
             }
         }
-        public void AddPlayer(Player player)
-        {
-            playerList.Add(player);
-        }
-        public void RemovePlayer(string player)
-        {
-            var remuvPlayer = playerList.FirstOrDefault(x => x.Name == player);
-            if (remuvPlayer == null)
-            {
-                
-                throw new ArgumentException(string.Format(MessageException.MISSING_PLAYER,player,this.Name));
-            }
-            playerList.Remove(remuvPlayer);
-        }
-        private int Rating
-        {
-            get
-            {
-                if (playerList.Count == 0)
-                {
-                    return 0;
-                }
-                return (int)Math.Round(playerList.Select(x => x.SkillLevel).Average());
-            }
-                
-        }
 
+        
+        public void Add(Player player)
+        {
+            this.players.Add(player);
+        }
+        public void Remove(string namePlayer)
+        {
+            var filterPlayer = this.players.FirstOrDefault(p => p.Name == namePlayer);
+            if (filterPlayer == null)
+                throw new ArgumentException(string.Format(MessageExceptions.PLAYER_IS_NOT_TEAM, namePlayer, Name));
+            this.players.Remove(filterPlayer);
+
+        }
         public override string ToString()
         {
-            return $"{Name} - {Rating}";
+            if(this.players.Count == 0)
+                return $"{Name} - 0";
+            return $"{Name} - {this.players.Average(p=>p.Stats.SkillLevel):F0}";
         }
 
     }

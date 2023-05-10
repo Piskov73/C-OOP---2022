@@ -1,65 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-
-namespace _05FootballTeamGenerator
+﻿namespace FootballTeamGenerator
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class StartUp
     {
         public static void Main(string[] args)
         {
-       
-            List<Team> teams = new List<Team>();
-            string comand = Console.ReadLine();
-            while (comand != "END")
+            var teams = new HashSet<Team>();
+
+            string input;
+            while ((input = Console.ReadLine()) != "END")
             {
                 try
                 {
-                    string[] token = comand.Split(';');
-                    switch (token[0])
+                    string[] tokens = input.Split(";", StringSplitOptions.RemoveEmptyEntries);
+                    string comand = tokens[0];
+                    string nameTeam = tokens[1];
+                    if (comand == "Team")
                     {
-                        case "Team":
-                            var newTeam = new Team(token[1]);
-                            teams.Add(newTeam);
-                            break;
-                        case "Add":
-                            Team addToTeam = ReturnTeam(teams, token[1]);
-                            var player = new Player(token[2], new Stat(int.Parse(token[3]),
-                                int.Parse(token[4]), int.Parse(token[5]),
-                                int.Parse(token[6]), int.Parse(token[7])));
-                            addToTeam.AddPlayer(player);
-                            break;
-                        case "Remove":
-                            var remuveToTeam = ReturnTeam(teams, token[1]);
-                            remuveToTeam.RemovePlayer(token[2]);
-
-                            break;
-                        case "Rating":
-                            var ratingToPlaer = ReturnTeam(teams, token[1]);
-                            Console.WriteLine(ratingToPlaer);
-                            break;
+                        var team = new Team(nameTeam);
+                        teams.Add(team);
+                        continue;
                     }
+                    var filterTeam = teams.FirstOrDefault(t => t.Name == nameTeam);
+                    if (filterTeam == null)
+                        throw new ArgumentException(string.Format(MessageExceptions.NO_TEAM, nameTeam));
+                    if (comand == "Add")
+                    {
+                        //Add;Arsenal;Kieran_Gibbs;75;85;84;92;67
+                        string namePlayer = tokens[2];
+                        int endurance = int.Parse(tokens[3]);
+                        int sprint = int.Parse(tokens[4]);
+                        int dribble = int.Parse(tokens[5]);
+                        int passing = int.Parse(tokens[6]);
+                        int shooting = int.Parse(tokens[7]);
+                        var stats = new Stats(endurance, sprint, dribble, passing, shooting);
+                        filterTeam.Add(new Player(namePlayer, stats));
+                    }
+                    else if (comand == "Remove")
+                    {
+                        //Remove;Arsenal;Aaron_Ramsey
+                        string namePlayer = tokens[2];
+                        filterTeam.Remove(namePlayer);
+                    }
+                    else if (comand == "Rating")
+                    {
+                        Console.WriteLine(filterTeam);
+                    }
+                    else throw new ArgumentException("Invalid command!");
                 }
-                catch (Exception e)
+                catch (ArgumentException axc)
                 {
+                    Console.WriteLine(axc.Message);
 
-                    Console.WriteLine(e.Message);
                 }
-                comand = Console.ReadLine();
-            }
-
-        }
-
-        static Team ReturnTeam(List<Team> teams, string nameTeam)
-        {
-            var team = teams.FirstOrDefault(t => t.Name == nameTeam);
-            if (team == null)
-            {
-                throw new AggregateException(string.Format(MessageException.MISSING_TEAM, nameTeam));
+               
 
             }
-            return team;
+
+
         }
     }
 }
