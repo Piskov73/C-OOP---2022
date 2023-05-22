@@ -1,7 +1,7 @@
 ﻿namespace Telephony.IO.Interface
 {
-    public  interface IRead
+    public interface IRead
     {
-        string ReadLain();
+        string ReadLine();
     }
 }
