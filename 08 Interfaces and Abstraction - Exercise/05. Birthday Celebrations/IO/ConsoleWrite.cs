@@ -2,12 +2,10 @@
 {
     using System;
 
-
-    using BirthdayCelebrations.IO.Interfaces;
-    internal class ConsoleWrite : IWrite
+    using Interface;
+    public class ConsoleWrite : IWrite
     {
-
-        public void Write(object text)
+        public void Write(string text)
         {
             Console.Write(text);
         }
