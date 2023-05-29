@@ -2,17 +2,17 @@
 {
     using System;
 
-    using MilitaryElite.IO.Interfaces;
+    using MilitaryElite.IO.Interface;
     public class ConsoleWrite : IWrite
     {
-        public void Write(string value)
+        public void Write(string text)
         {
-            Console.Write(value);
+            Console.Write(text);
         }
 
-        public void WriteLine(string value)
+        public void WriteLine(string text)
         {
-            Console.WriteLine(value);
+            Console.WriteLine(text);
         }
     }
 }

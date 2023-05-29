@@ -1,8 +1,8 @@
-﻿using MilitaryElite.Models.Interfaces;
-using System;
-
-namespace MilitaryElite.Models
+﻿namespace MilitaryElite.Models
 {
+    using Interface;
+    using System;
+
     public class Spy : Soldier, ISpy
     {
         public Spy(int id, string firstName, string lastName, int codeNumber) : base(id, firstName, lastName)
@@ -13,7 +13,8 @@ namespace MilitaryElite.Models
         public int CodeNumber { get; private set; }
         public override string ToString()
         {
-            return base.ToString() + Environment.NewLine + $" Code Number: {CodeNumber}";
+
+            return base.ToString()+Environment.NewLine+$"Code Number: {CodeNumber}";
         }
     }
 }

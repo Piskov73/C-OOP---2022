@@ -2,9 +2,9 @@
 {
     using System;
 
-    using MilitaryElite.IO.Interfaces;
-
+    using Interface;
     public class ConsoleRead : IRead
+
     {
         public string ReadLine()
         {

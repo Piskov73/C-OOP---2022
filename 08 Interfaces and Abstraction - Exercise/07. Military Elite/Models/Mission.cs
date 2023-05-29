@@ -1,16 +1,15 @@
 ﻿namespace MilitaryElite.Models
 {
-    using Enums;
-    using Interfaces;
-    internal class Mission : IMissions
+    using Enum;
+    using Interface;
+    public class Mission : IMission
     {
-        public Mission(string cogeName,State state )
-        { 
-            this.CodeName = cogeName;
+        public Mission(string codeName,State state)
+        {
+            this.CodeName = codeName;
             this.State = state;
-
         }
-        public string CodeName { get;private set; }
+        public string CodeName { get; private set; }
 
         public State State { get; private set; }
 
@@ -20,8 +19,7 @@
         }
         public override string ToString()
         {
-            //Code Name: Freedom State: inProgress
-            return $"Code Name: {CodeName} State: {State}";
+            return $"  Code Name: {CodeName} State: {State}";
         }
     }
 }

@@ -1,16 +1,18 @@
-﻿using MilitaryElite.Core;
-using MilitaryElite.IO;
-using MilitaryElite.IO.Interfaces;
-
+﻿
 namespace MilitaryElite
 {
+    using IO;
+    using IO.Interface;
+    using MilitaryElite.Core;
+    using MilitaryElite.Core.Interface;
+
     public class StartUp
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            IRead read=new ConsoleRead();
-            IWrite write=new ConsoleWrite();
-            Engine engine = new Engine(read,write);
+            IRead read = new ConsoleRead();
+            IWrite write = new ConsoleWrite();
+            IEngine engine =new Engine(read, write);
             engine.Run();
         }
     }

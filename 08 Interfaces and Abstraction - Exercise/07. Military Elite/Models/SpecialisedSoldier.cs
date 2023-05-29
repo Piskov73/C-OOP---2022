@@ -1,22 +1,23 @@
 ﻿namespace MilitaryElite.Models
 {
-    using Enums;
-    using Interfaces;
-    using System;
+    using Enum;
+    using Interface;
+    using System.Text;
 
     public abstract class SpecialisedSoldier : Private, ISpecialisedSoldier
     {
-        public SpecialisedSoldier(int id, string firstName, string lastName, decimal salary,Corps corps)
-            : base(id, firstName, lastName, salary)
+        protected SpecialisedSoldier(int id, string firstName, string lastName, decimal salary, Corps corps) : base(id, firstName, lastName, salary)
         {
             this.Corps = corps;
         }
 
-        public Corps Corps { get;private set; }
+        public Corps Corps { get; private set; }
         public override string ToString()
         {
-            return base.ToString()+ Environment.NewLine+$"Corps: {Corps}";
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString())
+                .AppendLine($"Corps: {Corps}");
+            return sb.ToString().TrimEnd();
         }
-
     }
 }
