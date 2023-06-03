@@ -1,11 +1,10 @@
-﻿using _01._Math_Operations;
-using System;
+﻿using System;
 
 namespace Operations
 {
     public class StartUp
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             MathOperations mo = new MathOperations();
             Console.WriteLine(mo.Add(2, 3));

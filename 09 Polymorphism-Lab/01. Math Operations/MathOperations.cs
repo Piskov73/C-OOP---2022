@@ -1,20 +1,19 @@
-﻿using System.Xml;
-
-namespace _01._Math_Operations
+﻿namespace Operations
 {
     public class MathOperations
     {
-        public int Add(int a,int b)
+      
+        public int Add(int x, int y)
         {
-            return a + b;
+            return x + y;
         }
-        public double Add(double a,double b,double c)
+        public double Add(double x, double y,double c   )
         {
-            return a + b+c;
+            return x + y + c;
         }
-        public decimal Add(decimal a,decimal b,decimal c)
+        public decimal Add(decimal x, decimal y,decimal c)
         {
-            return a+b+c;
+            return x + y + c;
         }
 
     }
