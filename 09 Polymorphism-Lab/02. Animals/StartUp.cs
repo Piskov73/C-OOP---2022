@@ -1,11 +1,9 @@
-﻿using _02._Animals;
-using System;
-
-namespace Animals
+﻿namespace Animals
 {
+using System;
     public class StartUp
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Animal cat = new Cat("Peter", "Whiskas");
             Animal dog = new Dog("George", "Meat");
