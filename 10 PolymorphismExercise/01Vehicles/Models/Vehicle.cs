@@ -1,39 +1,43 @@
 ﻿namespace Vehicles.Models
 {
-    using Exceptions;
+    using System;
 
-    using Interface;
-    using Vehicles.Messages;
+    using Interfaces;
+    using Messages;
 
     public abstract class Vehicle : IVehicle
     {
-        public Vehicle(double quantityFuel, double consumption, double increased)
+        protected Vehicle(double fuelQuantity, double feleConsumption, double increased)
         {
-            this.QuantityFuel = quantityFuel;
-            this.Consumption = consumption + increased;
+            this.FuelQuantity = fuelQuantity;
+            this.FuelConsumption = feleConsumption;
+            this.Increased = increased;
         }
-        public double QuantityFuel { get; private set; }
+        public double FuelQuantity { get; private set; }
 
-        public double Consumption { get; private set; }
+        public double FuelConsumption { get; private set; }
+
+        public double Increased { get; private set; }
 
         public string Drive(double distance)
         {
-            double spentFuel = distance * Consumption;
-            if (spentFuel > this.QuantityFuel)
+            double spentFuel = (this.FuelConsumption+this.Increased) * distance;
+            if(spentFuel>this.FuelQuantity)
             {
-                throw new ExeptionNeedsRefueling(string.Format(Message.NeedsRefueling, this.GetType().Name));
+               throw new ArgumentException(string.Format(EcxeptionMessage.NEEDS_REFUELING,this.GetType().Name));
             }
-            this.QuantityFuel -= spentFuel;
+            this.FuelQuantity-=spentFuel;
             return $"{this.GetType().Name} travelled {distance} km";
         }
 
         public virtual void Refuel(double liters)
         {
-            this.QuantityFuel += liters;
+            this.FuelQuantity += liters;
         }
+
         public override string ToString()
         {
-            return $"{this.GetType().Name}: {this.QuantityFuel:F2}";
+            return $"{this.GetType().Name}: {this.FuelQuantity:F2}";
         }
     }
 }

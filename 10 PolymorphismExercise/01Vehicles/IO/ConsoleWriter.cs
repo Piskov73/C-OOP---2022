@@ -1,19 +1,17 @@
 ﻿namespace Vehicles.IO
 {
     using System;
-
-    using Interface;
-
+    using Vehicles.IO.Interface;
     public class ConsoleWriter : IWriter
     {
-        public void Write(object value)
+        public void Write(string text)
         {
-            Console.Write(value.ToString());
+            Console.Write(text);
         }
 
-        public void WriteLine(object value)
+        public void WriteLine(string text)
         {
-            Console.WriteLine(value.ToString());
+            Console.WriteLine(text);
         }
     }
 }

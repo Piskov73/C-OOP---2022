@@ -1,54 +1,87 @@
 ﻿namespace Vehicles.Core
 {
     using System;
-    using System.Linq;
-    using System.Collections.Generic;
 
+    using System.Collections.Generic;
     using Interfaces;
-    using Factories.Interface;
     using IO.Interface;
-    using Models.Interface;
-    using Exceptions;
+    using Factory.Intervaces;
+    using Models.Interfaces;
+    using System.Linq;
+    using Vehicles.Messages;
 
     public class Engine : IEngine
     {
         private readonly IReader reader;
         private readonly IWriter writer;
-        private readonly IVehiclesFactories vehiclesFactories;
-
+        private readonly IFactoryVehicles factoryVehicles;
         private readonly ICollection<IVehicle> vehicles;
-        protected Engine()
+
+        private Engine()
         {
             this.vehicles = new HashSet<IVehicle>();
         }
-        public Engine(IReader reader, IWriter writer, IVehiclesFactories vehiclesFactories)
-            : this()
+        public Engine(IReader reader,IWriter writer, IFactoryVehicles factoryVehicles)
+            : this() 
         {
             this.reader = reader;
             this.writer = writer;
-            this.vehiclesFactories = vehiclesFactories;
+            this.factoryVehicles = factoryVehicles; 
         }
 
         public void Run()
         {
-            this.vehicles.Add(CreateVehicleUsingFactory());
-            this.vehicles.Add(CreateVehicleUsingFactory());
+            vehicles.Add(GetVehicle());
+            vehicles.Add(GetVehicle());
 
+            CompleteTask();
+
+            Print();
+           
+        }
+
+        private IVehicle GetVehicle()
+        {
+            string[] tokens=reader.ReadLine().Split(" ",StringSplitOptions.RemoveEmptyEntries);
+            string type = tokens[0];
+            double fuelQuantity = double.Parse(tokens[1]);
+            double fuelConsumption=double.Parse(tokens[2]);
+            return factoryVehicles.CreateVehicles(type, fuelQuantity, fuelConsumption);
+        }
+        private void CompleteTask()
+        {
             int n = int.Parse(reader.ReadLine());
 
             for (int i = 0; i < n; i++)
             {
+               
                 try
                 {
-                    this.Comand();
+                    string[] tokens = reader.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                    string comand = tokens[0];
+                    string typeVehicle = tokens[1];
+                    double valio = double.Parse(tokens[2]);
+                    IVehicle vehicle=vehicles.FirstOrDefault(t=>t.GetType().Name == typeVehicle);
+                    if (vehicle == null)
+                    {
+                        throw new ArgumentException(string.Format(EcxeptionMessage.INVALID_VEHICLE));
+                    }
+                    if(comand== "Refuel")
+                    {
+                        vehicle.Refuel(valio);
+                    }
+                    else if(comand== "Drive")
+                    {
+                        writer.WriteLine(vehicle.Drive(valio));
+                    }
+                    else
+                    {
+                        throw new ArgumentException(string.Format(EcxeptionMessage.INVALID_COMMAND));
+                    }
                 }
-                catch (ExceptionInvalidVehicle eiv)
+                catch (ArgumentException are)
                 {
-                    writer.WriteLine(eiv.Message);
-                }
-                catch (ExeptionNeedsRefueling enr)
-                {
-                    writer.WriteLine(enr.Message);
+                    writer.WriteLine(are.Message);
                 }
                 catch (Exception)
                 {
@@ -56,48 +89,13 @@
                     throw;
                 }
             }
-
-            this.Print();
-        }
-        private IVehicle CreateVehicleUsingFactory()
-        {
-            string[] comand = reader.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            string type = comand[0];
-            double fuelQuantity = double.Parse(comand[1]);
-            double fuelConsumption = double.Parse(comand[2]);
-            IVehicle vehicle = this.vehiclesFactories.CreateVehicle(type, fuelQuantity, fuelConsumption);
-            return vehicle;
-
-        }
-        private void Comand()
-        {
-
-            string[] command = reader.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            string action = command[0];
-            string type = command[1];
-            double argument = double.Parse(command[2]);
-            IVehicle currentVehicle = this.vehicles.FirstOrDefault(v => v.GetType().Name == type);
-            if (currentVehicle == null)
-            {
-                throw new ExceptionInvalidVehicle("The vehicle cannot be found!");
-            }
-            if (action == "Drive")
-            {
-                writer.WriteLine(currentVehicle.Drive(argument));
-            }
-            else if (action == "Refuel")
-            {
-                currentVehicle.Refuel(argument);
-            }
-
         }
         private void Print()
         {
-            foreach (var item in this.vehicles)
+            foreach (var vehicle in vehicles)
             {
-                writer.WriteLine(item);
+                writer.WriteLine(vehicle.ToString());
             }
         }
     }
-
 }

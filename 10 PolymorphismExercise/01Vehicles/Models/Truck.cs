@@ -2,10 +2,10 @@
 {
     public class Truck : Vehicle
     {
-        private const double IncreasedConsumptionTruck = 1.6;
-        public Truck(double quantityFuel, double consumption) : base(quantityFuel, consumption, IncreasedConsumptionTruck)
+        private const double INNCREASED_TRUCK = 1.6;
+        public Truck(double fuelQuantity, double feleConsumption)
+            : base(fuelQuantity, feleConsumption, INNCREASED_TRUCK)
         {
-
         }
 
         public override void Refuel(double liters)

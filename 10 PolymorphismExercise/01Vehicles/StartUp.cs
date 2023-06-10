@@ -2,19 +2,20 @@
 {
     using Core;
     using Core.Interfaces;
-    using IO;
+    using Vehicles.IO;
     using IO.Interface;
-    using Factories;
-    using Factories.Interface;
+    using Vehicles.Factory.Intervaces;
+    using Vehicles.Factory;
 
     public class StartUp
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            IReader reader = new ConsoleReader();
-            IWriter writer = new ConsoleWriter();
-            IVehiclesFactories vehiclesFactories = new VehiclesFacktorie();
-            IEngine engine = new Engine(reader, writer, vehiclesFactories);
+            IReader reader = new ConsolReader();
+            IWriter writer=new ConsoleWriter();
+            IFactoryVehicles factory = new FactoryVehicles();
+            IEngine engine = new Engine(reader,writer,factory);
+
             engine.Run();
         }
     }
