@@ -14,15 +14,16 @@ namespace BookingApp.Models.Bookings.Models
         private int adultsCount;
         private int childrenCount;
         private int bookingNumber;
+
+
         public Booking(IRoom room, int residenceDuration, int adultsCount, int childrenCount, int bookingNumber)
         {
-            this.room = room;
-            this.ResidenceDuration = residenceDuration;
+            Room = room;
+            ResidenceDuration = residenceDuration;
             AdultsCount = adultsCount;
-            ChildrenCount=childrenCount;
-            this.bookingNumber = bookingNumber;
+            BookingNumber= bookingNumber;
         }
-        public IRoom Room => this.room;
+        public IRoom Room { get => room; private set => room = value; }
 
 
         public int ResidenceDuration
@@ -34,10 +35,10 @@ namespace BookingApp.Models.Bookings.Models
                 {
                     throw new ArgumentException(string.Format(ExceptionMessages.DurationZeroOrLess));
                 }
+
                 residenceDuration = value;
             }
         }
-
 
         public int AdultsCount
         {
@@ -67,18 +68,18 @@ namespace BookingApp.Models.Bookings.Models
         }
 
 
-        public int BookingNumber => this.bookingNumber;
+
+        public int BookingNumber { get => bookingNumber;private set =>bookingNumber=value; }
 
         public string BookingSummary()
         {
-            double totalPaid = ResidenceDuration * Room.PricePerNight;
             StringBuilder sb = new StringBuilder();
 
+            double totalPaid = room.PricePerNight * ResidenceDuration;
             sb.AppendLine($"Booking number: {BookingNumber}")
-                .AppendLine($"Room type: {this.GetType().Name}")
+                .AppendLine($"Room type: {room.GetType().Name}")
                 .AppendLine($"Adults: {AdultsCount} Children: {ChildrenCount}")
                 .AppendLine($"Total amount paid: {totalPaid:F2} $");
-
 
             return sb.ToString().TrimEnd();
         }

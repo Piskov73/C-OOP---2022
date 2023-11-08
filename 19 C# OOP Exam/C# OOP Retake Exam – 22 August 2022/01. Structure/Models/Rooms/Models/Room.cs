@@ -4,25 +4,24 @@ using System;
 
 namespace BookingApp.Models.Rooms.Models
 {
-    public abstract class Room : IRoom
+    public class Room : IRoom
     {
         private int bedCapacity;
-        private double pricePerNight;
 
-        protected Room(int bedCapacity)
+        public Room(int bedCapacity)
         {
-            this.bedCapacity = bedCapacity;
-
+            BedCapacity=bedCapacity;
         }
+        public int BedCapacity { get =>bedCapacity;  private set => bedCapacity = value; }
 
-        public int BedCapacity => bedCapacity;
+        private double pricePerNight;
 
         public double PricePerNight
         {
             get { return pricePerNight; }
-            private set
+          private set 
             {
-                if (value < 0)
+                if(value < 0)
                 {
                     throw new ArgumentException(string.Format(ExceptionMessages.PricePerNightNegative));
                 }
@@ -33,7 +32,7 @@ namespace BookingApp.Models.Rooms.Models
 
         public void SetPrice(double price)
         {
-            this.PricePerNight= price;
+            PricePerNight=price;
         }
     }
 }
