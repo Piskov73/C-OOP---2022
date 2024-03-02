@@ -2,9 +2,9 @@
 {
     public class Apartment : Room
     {
-        private const int CAPACITY = 6;
-        public Apartment( )
-            : base(CAPACITY)
+        private const int BED_CAPACITY = 6;
+        public Apartment() 
+            : base(BED_CAPACITY)
         {
         }
     }

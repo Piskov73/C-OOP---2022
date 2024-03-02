@@ -2,9 +2,9 @@
 {
     public class DoubleBed : Room
     {
-        private const int CAPACITY = 2;
+        private const int BED_CAPACITY = 2;
         public DoubleBed()
-            : base(CAPACITY)
+            : base(BED_CAPACITY)
         {
         }
     }

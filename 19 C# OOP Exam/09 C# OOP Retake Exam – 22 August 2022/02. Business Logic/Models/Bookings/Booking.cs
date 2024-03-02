@@ -13,52 +13,52 @@ namespace BookingApp.Models.Bookings
         private int adultsCount;
         private int childrenCount;
         private int bookingNumber;
-        public Booking(IRoom room, int residenceDuration, int adultsCount, int childrenCount, int bookingNumber)
-        {
-            this.room = room;
-            this.ResidenceDuration = residenceDuration;
-            this.AdultsCount = adultsCount;
-            this.ChildrenCount = childrenCount;
-            this.bookingNumber = bookingNumber;
+        public Booking(IRoom room, int residenceDuration, int adultsCount, int childrenCount, int bookingNumber) 
+        { 
+            this.room=room;
+            ResidenceDuration = residenceDuration;
+            AdultsCount = adultsCount;
+            ChildrenCount = childrenCount;
+            this.bookingNumber=bookingNumber;
         }
         public IRoom Room => this.room;
 
         public int ResidenceDuration
         {
-            get => residenceDuration;
+            get => this.residenceDuration;
             private set
             {
-                if (value <= 0)
+                if(value<=0)
                 {
                     throw new ArgumentException(string.Format(ExceptionMessages.DurationZeroOrLess));
                 }
-                residenceDuration = value;
+                this.residenceDuration = value;
             }
         }
 
         public int AdultsCount
         {
-            get => adultsCount;
+            get=>this.adultsCount;
             private set
             {
-                if (value <= 0)
+                if (value < 1)
                 {
                     throw new ArgumentException(string.Format(ExceptionMessages.AdultsZeroOrLess));
                 }
-                adultsCount = value;
+                this.adultsCount = value;
             }
         }
 
         public int ChildrenCount
         {
-            get => childrenCount;
+            get => this.childrenCount;
             private set
             {
                 if (value < 0)
                 {
                     throw new ArgumentException(string.Format(ExceptionMessages.ChildrenNegative));
                 }
-                childrenCount = value;
+                this.childrenCount = value;
             }
         }
 
@@ -75,9 +75,10 @@ namespace BookingApp.Models.Bookings
 
             return sb.ToString().TrimEnd();
         }
-        public double TotalPaid()
+
+        private double TotalPaid()
         {
-            return Math.Round(this.room.PricePerNight * this.residenceDuration, 2);
+            return Math.Round(ResidenceDuration * room.PricePerNight,2);
         }
     }
 }

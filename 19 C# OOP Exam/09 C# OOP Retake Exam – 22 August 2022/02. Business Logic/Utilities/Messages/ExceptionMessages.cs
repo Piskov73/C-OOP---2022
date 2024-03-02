@@ -16,7 +16,7 @@
 
         public const string HotelNameNullOrEmpty = "Hotel name cannot be null or empty!";//
 
-        public const string InvalidCategory = "Category should be between 1 and 5 stars!";
+        public const string InvalidCategory = "Category should be between 1 and 5 stars!";//
 
         public const string RoomTypeNullOrEmpty = "Room type cannot be null or empty!";
 

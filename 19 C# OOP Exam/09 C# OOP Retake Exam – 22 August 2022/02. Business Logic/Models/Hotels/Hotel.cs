@@ -5,64 +5,66 @@ using BookingApp.Repositories;
 using BookingApp.Repositories.Contracts;
 using BookingApp.Utilities.Messages;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace BookingApp.Models.Hotels
 {
     public class Hotel : IHotel
     {
+        private const int MIN_CATEGORY = 1;
+        private const int MAX_CATEGORY = 5;
         private string fullName;
         private int category;
         private IRepository<IRoom> rooms;
         private IRepository<IBooking> bookings;
         public Hotel(string fullName, int category)
-        { 
-            this.FullName = fullName;
-            this.category = category;
+        {
+            FullName = fullName;
+            Category = category;
             this.rooms = new RoomRepository();
-            this.bookings = new BookingRepository();
+            this.bookings=new BookingRepository();
         }
         public string FullName
         {
-            get => fullName;
+            get => this.fullName;
             private set
             {
-                if(string.IsNullOrWhiteSpace(value))
+                if (string.IsNullOrWhiteSpace(value))
                 {
                     throw new ArgumentException(string.Format(ExceptionMessages.HotelNameNullOrEmpty));
                 }
-                fullName = value;
+                this.fullName = value;
             }
         }
 
         public int Category
         {
-            get=>category;
+            get => this.category;
             private set
             {
-                if(value<1||value>5)
+                if (value < MIN_CATEGORY || value > MAX_CATEGORY)
                 {
                     throw new ArgumentException(string.Format(ExceptionMessages.InvalidCategory));
                 }
-                category = value;
+                this.category = value;
             }
         }
 
-        public double Turnover => AllBookinfsSum();
+        public double Turnover => GetTurnover();
+            
 
         public IRepository<IRoom> Rooms => this.rooms;
 
         public IRepository<IBooking> Bookings => this.bookings;
 
-        private double AllBookinfsSum()
+        private double GetTurnover()
         {
-            double sum = 0;
-            foreach (var item in bookings.All())
+            double turnover = 0;
+            foreach (var booking in this.bookings.All())
             {
-                sum += item.Room.PricePerNight * item.ResidenceDuration;
+                turnover += booking.ResidenceDuration * booking.Room.PricePerNight;
             }
-
-            return Math.Round(sum,2);
+            return turnover;
         }
     }
 }

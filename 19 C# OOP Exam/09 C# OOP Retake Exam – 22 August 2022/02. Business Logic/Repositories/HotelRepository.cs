@@ -7,22 +7,24 @@ namespace BookingApp.Repositories
 {
     public class HotelRepository : IRepository<IHotel>
     {
-        private List<IHotel> all;
+        private List<IHotel> hotels;
         public HotelRepository()
         {
-            this.all= new List<IHotel>();
+            this.hotels=new List<IHotel>();
         }
         public void AddNew(IHotel model)
         {
-            this.all.Add(model);
+            this.hotels.Add(model);
         }
 
-        public IReadOnlyCollection<IHotel> All() => this.all.AsReadOnly();
-       
+        public IReadOnlyCollection<IHotel> All()
+        {
+           return this.hotels.AsReadOnly();
+        }
 
         public IHotel Select(string criteria)
         {
-           return this.all.FirstOrDefault(x=>x.FullName == criteria);
+            return this.hotels.FirstOrDefault(x=>x.FullName == criteria);
         }
     }
 }

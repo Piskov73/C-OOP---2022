@@ -2,12 +2,14 @@
 using BookingApp.Models.Bookings;
 using BookingApp.Models.Bookings.Contracts;
 using BookingApp.Models.Hotels;
+using BookingApp.Models.Hotels.Contacts;
 using BookingApp.Models.Rooms;
+using BookingApp.Models.Rooms.Contracts;
 using BookingApp.Repositories;
 using BookingApp.Utilities.Messages;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace BookingApp.Core
@@ -15,17 +17,21 @@ namespace BookingApp.Core
     public class Controller : IController
     {
         private HotelRepository hotels;
+        
         public Controller()
         {
             this.hotels = new HotelRepository();
         }
+
         public string AddHotel(string hotelName, int category)
         {
-            var hotel = hotels.Select(hotelName);
+            var hotel = this.hotels.Select(hotelName);
+
             if (hotel != null)
             {
                 return string.Format(OutputMessages.HotelAlreadyRegistered, hotelName);
             }
+
             hotel = new Hotel(hotelName, category);
 
             this.hotels.AddNew(hotel);
@@ -39,11 +45,13 @@ namespace BookingApp.Core
             {
                 return string.Format(OutputMessages.HotelNameInvalid, hotelName);
             }
+
             var room = hotel.Rooms.Select(roomTypeName);
             if (room != null)
             {
                 return string.Format(OutputMessages.RoomTypeAlreadyCreated);
             }
+
             if (roomTypeName == nameof(DoubleBed))
             {
                 room = new DoubleBed();
@@ -62,6 +70,7 @@ namespace BookingApp.Core
             }
 
             hotel.Rooms.AddNew(room);
+
             return string.Format(OutputMessages.RoomTypeAdded, roomTypeName, hotelName);
         }
         public string SetRoomPrices(string hotelName, string roomTypeName, double price)
@@ -71,19 +80,24 @@ namespace BookingApp.Core
             {
                 return string.Format(OutputMessages.HotelNameInvalid, hotelName);
             }
+
             if (roomTypeName != nameof(DoubleBed) && roomTypeName != nameof(Studio) && roomTypeName != nameof(Apartment))
             {
                 throw new ArgumentException(string.Format(ExceptionMessages.RoomTypeIncorrect));
             }
+
             var room = hotel.Rooms.Select(roomTypeName);
+
             if (room == null)
             {
                 return string.Format(OutputMessages.RoomTypeNotCreated);
             }
-            if (room.PricePerNight != 0)
+
+            if (room.PricePerNight != default)
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.CannotResetInitialPrice));
             }
+
             room.SetPrice(price);
 
             return string.Format(OutputMessages.PriceSetSuccessfully, roomTypeName, hotelName);
@@ -91,34 +105,40 @@ namespace BookingApp.Core
 
         public string BookAvailableRoom(int adults, int children, int duration, int category)
         {
-          
+            List<IHotel> hotelsCategory = this.hotels.All().Where(x => x.Category == category).OrderBy(x => x.FullName).ToList();
 
-
-
-            int sumAdultsChildren = adults + children;
-
-            var filter = this.hotels.All().Where(c => c.Category == category).OrderBy(n => n.Turnover).ThenBy(x=>x.FullName).ToList();
-            if (filter == null)
+            if (hotelsCategory.Count == 0)
             {
                 return string.Format(OutputMessages.CategoryInvalid, category);
             }
-            var hotel = filter.FirstOrDefault(x => x.Rooms.All().Any(r => r.PricePerNight > 0)
-            && x.Rooms.All().Any(r => r.BedCapacity >= sumAdultsChildren));
+            int numberPeople = adults + children;
+
+            IHotel hotel = hotelsCategory.FirstOrDefault(x => x.Rooms.All()
+            .Any(x => x.BedCapacity >= numberPeople && x.PricePerNight > 0));
+
             if (hotel == null)
             {
                 return string.Format(OutputMessages.RoomNotAppropriate);
             }
-            var rooms = hotel.Rooms.All().OrderBy(x => x.BedCapacity);
-            var room = rooms.FirstOrDefault(x => x.PricePerNight > 0 && x.BedCapacity >= sumAdultsChildren);
+
+            List<IRoom> rooms = hotel.Rooms.All().Where(x => x.BedCapacity >= numberPeople && x.PricePerNight > 0)
+                .OrderBy(x => x.BedCapacity).ToList();
+
+            IRoom room = rooms.First(x=>x.BedCapacity>=numberPeople&&x.PricePerNight>0);
+
             int bookingNumber = hotel.Bookings.All().Count + 1;
+
             IBooking booking = new Booking(room, duration, adults, children, bookingNumber);
+
             hotel.Bookings.AddNew(booking);
+
             return string.Format(OutputMessages.BookingSuccessful, bookingNumber, hotel.FullName);
         }
 
         public string HotelReport(string hotelName)
         {
             var hotel = this.hotels.Select(hotelName);
+
             if (hotel == null)
             {
                 return string.Format(OutputMessages.HotelNameInvalid, hotelName);
@@ -128,19 +148,19 @@ namespace BookingApp.Core
 
             sb.AppendLine($"Hotel name: {hotelName}")
                 .AppendLine($"--{hotel.Category} star hotel")
-                .AppendLine($"--Turnover: {hotel.Turnover:F2} $")
-                .AppendLine("--Bookings:")
-                .AppendLine($"");
+                .AppendLine($"--Turnover: {hotel.Turnover:f2} $")
+                .AppendLine("--Bookings:");
             if (hotel.Bookings.All().Count == 0)
             {
-                sb.AppendLine("none");
+                sb.AppendLine()
+                    .AppendLine("none");
             }
             else
             {
-                foreach (var book in hotel.Bookings.All())
+                foreach (var booking in hotel.Bookings.All())
                 {
-                    sb.AppendLine(book.BookingSummary());
-                    sb.AppendLine();
+                    sb.AppendLine()
+                   .AppendLine(booking.BookingSummary());
                 }
             }
 
